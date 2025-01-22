@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import mongoose from "mongoose"
+import authRoutes from "./routes/auth.route.js"
 
 dotenv.config()
 
@@ -20,6 +21,7 @@ app.use(cors({
 app.use(cookieParser()) // cookie parser is used to get cookies from frontend, it is a middle ware
 app.use(express.json()) // to get body in json format , payload will be in json format
 
+app.use('/api/auth', authRoutes)
 
 const server = app.listen(port, () => {
     console.log(`Server is listening on port ${port}`); 

@@ -7,6 +7,9 @@ import { TabsTrigger } from '@radix-ui/react-tabs'
 import { TabsContent } from '@radix-ui/react-tabs'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import {apiClient} from "../../lib/api-client.js"
+import { SIGNUP_ROUTES } from '@/utils/constants'
 
 const Auth = () => {
 
@@ -14,12 +17,33 @@ const Auth = () => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
+  const validateSignUp = () => {
+    if(!email.length){
+      toast.error("Email is required");
+      return false
+    }
+
+    if(!password.length){
+      toast.error("Password is required")
+      return false
+    }
+
+    if(password !== confirmPassword){
+      toast.error("Password and confirm password should be same")
+      return false
+    }
+
+    return true
+  };
+
   const handleLogin = async() => {
 
   }
 
   const handleSignup = async() => {
-    
+    if(validateSignUp()){
+      const respone = await apiClient.post(SIGNUP_ROUTES, {email,password})
+    }
   }
 
 
@@ -72,7 +96,7 @@ const Auth = () => {
 
                 <Button
                  className="rounded-full p-6"
-                 onCLick={handleLogin}
+                 onClick={handleLogin}
                  >
                   Login
                 </Button>
@@ -104,7 +128,7 @@ const Auth = () => {
 
                 <Button
                  className="rounded-full p-6"
-                 onCLick={handleSignup}
+                 onClick={handleSignup}
                  >
                   Signup
                 </Button>
